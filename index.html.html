@@ -1,0 +1,506 @@
+from pathlib import Path
+import zipfile
+from textwrap import dedent
+
+base = Path('/mnt/data/project')
+images = base / 'images'
+images.mkdir(parents=True, exist_ok=True)
+
+index_html = dedent("""\
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Моя академия IT Start</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">IT Start Academy</div>
+      <nav>
+        <ul class="menu">
+          <li><a href="#home">Главная</a></li>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <p class="hero-label">Современное обучение и развитие</p>
+          <h1>Моя академия — путь к профессии в IT</h1>
+          <p>
+            Мы помогаем студентам и начинающим специалистам освоить востребованные
+            цифровые навыки, создать первые проекты и уверенно двигаться к будущей профессии.
+          </p>
+          <a class="btn" href="#about">Подробнее</a>
+        </div>
+        <div class="hero-card">
+          <h3>Почему выбирают нас</h3>
+          <ul>
+            <li>Практические занятия</li>
+            <li>Поддержка преподавателей</li>
+            <li>Актуальные направления</li>
+            <li>Проекты для портфолио</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section" id="about">
+      <div class="container about-grid">
+        <div class="about-image">
+          <img src="images/academy.svg" alt="Обучение в академии" />
+        </div>
+        <div class="about-text">
+          <h2>О нас</h2>
+          <p>
+            Наша академия создана для тех, кто хочет получить современные знания и
+            навыки в сфере информационных технологий. Мы обучаем основам
+            веб-разработки, программирования, дизайна и работе с цифровыми инструментами.
+            На занятиях студенты не только изучают теорию, но и выполняют реальные
+            практические задания. Особое внимание уделяется развитию логического мышления,
+            самостоятельности и умению работать в команде. Мы стремимся создать комфортную
+            образовательную среду, где каждый может раскрыть свой потенциал. Наша цель —
+            помочь обучающимся сделать уверенный шаг к будущей профессии.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services section" id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>Услуги</h2>
+          <p>Мы предлагаем полезные направления для обучения и развития.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Курсы по веб-разработке</h3>
+            <p>
+              Изучение HTML, CSS и JavaScript с созданием собственных сайтов и
+              практических мини-проектов.
+            </p>
+            <a href="#contacts" class="card-btn">Записаться</a>
+          </article>
+
+          <article class="card">
+            <h3>Подготовка проектов</h3>
+            <p>
+              Помощь в разработке учебных, дипломных и личных проектов с современным
+              оформлением и структурой.
+            </p>
+            <a href="#contacts" class="card-btn">Узнать больше</a>
+          </article>
+
+          <article class="card">
+            <h3>Консультации и наставничество</h3>
+            <p>
+              Индивидуальная поддержка по обучению, выбору направления и развитию
+              навыков для будущей карьеры.
+            </p>
+            <a href="#contacts" class="card-btn">Связаться</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contacts section" id="contacts">
+      <div class="container contacts-grid">
+        <div class="contact-info">
+          <h2>Контакты</h2>
+          <p><strong>Телефон:</strong> +7 (777) 123-45-67</p>
+          <p><strong>Email:</strong> info@itstart.kz</p>
+          <p><strong>Адрес:</strong> г. Кокшетау, ул. Академическая, 15</p>
+
+          <div class="socials">
+            <span>Соцсети:</span>
+            <a href="#">Instagram</a>
+            <a href="#">Telegram</a>
+            <a href="#">WhatsApp</a>
+          </div>
+        </div>
+
+        <form class="contact-form">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" placeholder="Введите ваше имя" />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Введите ваш email" />
+
+          <label for="message">Сообщение</label>
+          <textarea id="message" name="message" rows="5" placeholder="Введите сообщение"></textarea>
+
+          <button type="submit" class="btn">Отправить</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2026 IT Start Academy. Все права защищены.</p>
+      <p>Соцсети: Instagram | Telegram | WhatsApp</p>
+    </div>
+  </footer>
+</body>
+</html>
+""")
+
+style_css = dedent("""\
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1f2937;
+  background: #f8fafc;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.nav {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+}
+
+.menu a {
+  color: #e5e7eb;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.menu a:hover {
+  color: #38bdf8;
+}
+
+.hero {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(14, 116, 144, 0.92), rgba(30, 41, 59, 0.92)),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.2), transparent 30%);
+  color: #ffffff;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.hero-label {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 14px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.1;
+  margin-bottom: 18px;
+}
+
+.hero p {
+  max-width: 640px;
+  font-size: 18px;
+  margin-bottom: 26px;
+  color: #e2e8f0;
+}
+
+.btn,
+.card-btn {
+  display: inline-block;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 14px;
+  background: #38bdf8;
+  color: #082f49;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  cursor: pointer;
+}
+
+.btn:hover,
+.card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(56, 189, 248, 0.25);
+  background: #7dd3fc;
+}
+
+.hero-card {
+  padding: 28px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.hero-card h3 {
+  margin-bottom: 14px;
+  font-size: 24px;
+}
+
+.hero-card ul {
+  padding-left: 20px;
+}
+
+.about-grid,
+.contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 38px;
+  align-items: center;
+}
+
+.about-text h2,
+.section-title h2,
+.contact-info h2 {
+  font-size: 36px;
+  margin-bottom: 18px;
+  color: #0f172a;
+}
+
+.about-image img {
+  border-radius: 26px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.section-title p {
+  color: #64748b;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  padding: 28px;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 14px;
+  color: #0f172a;
+}
+
+.card p {
+  color: #475569;
+  margin-bottom: 18px;
+}
+
+.contact-info p {
+  margin-bottom: 12px;
+}
+
+.socials {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.socials a {
+  color: #0ea5e9;
+  font-weight: 600;
+}
+
+.contact-form {
+  padding: 28px;
+  background: #ffffff;
+  border-radius: 22px;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-form label {
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  outline: none;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+}
+
+.footer {
+  padding: 24px 0;
+  background: #0f172a;
+  color: #cbd5e1;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .hero-content,
+  .about-grid,
+  .contacts-grid,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 60px 0;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    padding: 16px 0;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 18px;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .about-text h2,
+  .section-title h2,
+  .contact-info h2 {
+    font-size: 30px;
+  }
+}
+""")
+
+academy_svg = dedent("""\
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" rx="32" fill="#E0F2FE"/>
+  <rect x="80" y="90" width="640" height="420" rx="28" fill="#0F172A"/>
+  <rect x="120" y="130" width="560" height="260" rx="20" fill="#F8FAFC"/>
+  <rect x="150" y="160" width="210" height="18" rx="9" fill="#38BDF8"/>
+  <rect x="150" y="200" width="330" height="14" rx="7" fill="#CBD5E1"/>
+  <rect x="150" y="228" width="280" height="14" rx="7" fill="#CBD5E1"/>
+  <rect x="150" y="256" width="240" height="14" rx="7" fill="#CBD5E1"/>
+  <rect x="520" y="180" width="110" height="110" rx="18" fill="#0EA5E9"/>
+  <path d="M575 205L595 245L555 245L575 205Z" fill="white"/>
+  <rect x="120" y="420" width="170" height="28" rx="14" fill="#38BDF8"/>
+  <rect x="310" y="420" width="110" height="28" rx="14" fill="#1E293B"/>
+  <circle cx="665" cy="105" r="34" fill="#7DD3FC" fill-opacity="0.7"/>
+  <circle cx="130" cy="485" r="44" fill="#BAE6FD" fill-opacity="0.7"/>
+</svg>
+""")
+
+(base / 'index.html').write_text(index_html, encoding='utf-8')
+(base / 'style.css').write_text(style_css, encoding='utf-8')
+(images / 'academy.svg').write_text(academy_svg, encoding='utf-8')
+
+zip_path = Path('/mnt/data/it_start_academy_site.zip')
+with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+    for path in base.rglob('*'):
+        zf.write(path, path.relative_to(base.parent))
+
+print(f"Created: {zip_path}")
+print("Files:")
+for p in sorted(base.rglob('*')):
+    print(p)
